@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION <%cmake_minimum_required(3.12.0)%>)
+cmake_minimum_required(VERSION <%cmake_minimum_required(3.20.0)%>)
 
 <%marker(top)%>
 project(<%project_name%> <%language%>)
@@ -118,6 +118,10 @@ add_library(${PROJECT_TARGET_<%uc(normalize(project_name))%>} ${SOURCE_FILES_<%u
 <%if(staticflags)%>
 target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PRIVATE <%staticflags%>)
 <%endif%>
+<%else%>
+<%if(custom_types)%>
+add_library(${PROJECT_TARGET_<%uc(normalize(project_name))%>} OBJECT)
+<%endif%>
 <%endif%>
 <%endif%>
 <%if(use_lib_modifier)%>
@@ -161,7 +165,7 @@ target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUB
 include(<%custom_type%> OPTIONAL)
 <%foreach(custom_type->input_files)%>
 <%uc(custom_type)%>_TARGET_SOURCES(
-    ${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUBLIC <%custom_type->input_file%>
+    ${PROJECT_TARGET_<%uc(normalize(project_name))%>} PRIVATE <%custom_type->input_file%>
     <%uc(custom_type)%>_OPTIONS <%if(flag_overrides(custom_type->input_file, commandflags))%><%flag_overrides(custom_type->input_file, commandflags)%><%else%><%custom_type->commandflags%><%endif%><%if(custom_type->output_option)%> <%custom_type->output_option%> <%if(flag_overrides(custom_type->input_file, gendir))%><%flag_overrides(custom_type->input_file, gendir)%>/<%basename(custom_type->input_file->output_file)%><%else%><%custom_type->input_file->output_file%><%endif%><%endif%>)
 
 <%endfor%>
@@ -172,7 +176,7 @@ include(<%custom_type%> OPTIONAL)
 include(<%custom_type%> OPTIONAL)
 <%endif%>
 <%uc(custom_type)%>_TARGET_SOURCES(
-    ${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUBLIC <%custom_type->input_file%>
+    ${PROJECT_TARGET_<%uc(normalize(project_name))%>} PRIVATE <%custom_type->input_file%>
 <%foreach(custom_type->input_file->commands)%>
     <%uc(custom_type->input_file->command->type)%>_OPTIONS <%custom_type->input_file->command->flags%><%fornotlast("\n")%><%endfor%>)
 
