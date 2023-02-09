@@ -132,6 +132,7 @@ set_target_properties(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PROPERTI
 <%endfor%>
 <%endif%>
 <%endif%>
+<%if(!custom_only)%>
 
 if(CMAKE_CONFIGURATION_TYPES)
 target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUBLIC
@@ -156,6 +157,7 @@ target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUB
 <%if(macros)%>
 target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUBLIC <%macros%>)
 
+<%endif%>
 <%endif%>
 <%if(custom_types)%>
 <%foreach(custom_types)%>
