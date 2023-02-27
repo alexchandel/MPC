@@ -79,6 +79,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_<%uc(configuration)%> <%env_libout%>)
 <%endif%>
 <%endif%>
 
+<%if(exename || sharedname || staticname)%>
 <%if(compile_flags)%>
 target_compile_options(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUBLIC <%compile_flags%>)
 
@@ -118,10 +119,6 @@ add_library(${PROJECT_TARGET_<%uc(normalize(project_name))%>} ${SOURCE_FILES_<%u
 <%if(staticflags)%>
 target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PRIVATE <%staticflags%>)
 <%endif%>
-<%else%>
-<%if(custom_types)%>
-add_library(${PROJECT_TARGET_<%uc(normalize(project_name))%>} OBJECT)
-<%endif%>
 <%endif%>
 <%endif%>
 <%if(use_lib_modifier)%>
@@ -156,6 +153,7 @@ target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUB
 <%if(macros)%>
 target_compile_definitions(${PROJECT_TARGET_<%uc(normalize(project_name))%>} PUBLIC <%macros%>)
 
+<%endif%>
 <%endif%>
 <%if(custom_types)%>
 <%foreach(custom_types)%>
